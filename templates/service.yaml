@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  {{ .Release.Name }}-service
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/path:   /
+    prometheus.io/port:   '8080'
+spec:
+  selector:
+    app:  {{ .Chart.Name }}
+  type:  {{ .Values.service.type }}
+  ports:
+  - name:  jenkins-port
+    port:  {{ .Values.image.port }}
+    targetPort: httpport
+    nodePort: {{ .Values.service.nodePort }}
